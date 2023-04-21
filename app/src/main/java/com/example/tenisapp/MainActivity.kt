@@ -102,8 +102,10 @@ fun TournamentRow(tournamentName: String){
     Row(Modifier.background(Color(0xFF6CAAFF)).fillMaxWidth().padding(vertical = 6.dp, horizontal = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween){
-        Text(tournamentName)
-        Button(onClick = {subscribed.value = !subscribed.value }){
+        Column(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
+            Text(tournamentName)
+        }
+        Button(onClick = {subscribed.value = !subscribed.value }, modifier = Modifier.padding(horizontal = 6.dp)){
             Text(if(!subscribed.value) "Inscribirse" else "Inscripto")
         }
     }
