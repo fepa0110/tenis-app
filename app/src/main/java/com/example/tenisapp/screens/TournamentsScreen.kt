@@ -32,43 +32,46 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tenisapp.ui.theme.TenisAppTheme
 
-class MainActivity : ComponentActivity() {
+@Composable
+fun TournamentsScreen(
+    modifier: Modifier = Modifier,
+    tournaments: List<String> = listOf("Grand Slam", "ATP Tour")
+) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            TenisAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MyApp()
-                }
+    LazyColumn {
+        for (tournament in tournaments) {
+            item {
+                TournamentRow(tournament)
+                Spacer(Modifier.size(12.dp))
             }
         }
     }
 }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
+fun TournamentRow(tournamentName: String) {
+    val subscribed = rememberSaveable { mutableStateOf(false) }
 
-    NavHost(navController = navController, startDestination = "welcome") {
-        composable("welcome") {
-            WelcomeScreen(
-                modifier,
-                onNavigateToTournaments = { navController.navigate("tournamentsList") })
+    Row(
+        Modifier
+            .background(MaterialTheme.colorScheme.secondary)
+            .fillMaxWidth()
+            .padding(vertical = 6.dp, horizontal = 2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 10.dp)
+        ) {
+            Text(tournamentName, style = MaterialTheme.typography.labelSmall)
         }
-        composable("tournamentsList") { TournamentsScreen(modifier) }
-        /*...*/
-    }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TenisAppTheme {
-        MyApp()
+        Button(
+            onClick = { subscribed.value = !subscribed.value },
+            modifier = Modifier.padding(horizontal = 6.dp)
+        ) {
+            Text(if (!subscribed.value) "Inscribirse" else "Inscripto")
+        }
     }
 }
