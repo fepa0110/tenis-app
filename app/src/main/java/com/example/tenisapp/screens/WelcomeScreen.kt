@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -49,8 +51,9 @@ fun WelcomeScreen(
     ) {
 
         Column(
-            //verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally) {
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -58,7 +61,7 @@ fun WelcomeScreen(
             ) {
                 Text(
                     text = "Bienvenido!",
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = Color(0xFFF7F7F2),
                     fontSize = 32.sp,
                     modifier = Modifier
                         .aspectRatio(16f / 7f)
@@ -68,6 +71,7 @@ fun WelcomeScreen(
                         ),
                 )
             }
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
@@ -83,3 +87,4 @@ fun WelcomeScreen(
         }
     }
 }
+

@@ -1,5 +1,6 @@
 package com.example.tenisapp.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -22,7 +23,7 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
-        color = Color.White
+        color = Color(0xFFF7F7F2)
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
