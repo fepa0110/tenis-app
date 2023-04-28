@@ -20,6 +20,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -54,17 +56,21 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
     } else {
-        Column(modifier = modifier) {
-            HeaderImage(Modifier.align(Alignment.CenterHorizontally))
-            Spacer(modifier = Modifier.padding(16.dp))
-            EmailField(email) { viewModel.onLoginChanged(it, password) }
-            Spacer(modifier = Modifier.padding(4.dp))
-            PasswordField(password) { viewModel.onLoginChanged(email, it) }
-            Spacer(modifier = Modifier.padding(8.dp))
-            Spacer(modifier = Modifier.padding(16.dp))
-            LoginButton(loginEnable) {
-                coroutineScope.launch {
-                    viewModel.onLoginSelected()
+        Column(modifier = Modifier.fillMaxWidth()){
+            HeaderImage()
+            Column(verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+
+                Spacer(modifier = Modifier.padding(16.dp))
+                EmailField(email) { viewModel.onLoginChanged(it, password) }
+                Spacer(modifier = Modifier.padding(4.dp))
+                PasswordField(password) { viewModel.onLoginChanged(email, it) }
+                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.padding(16.dp))
+                LoginButton(loginEnable) {
+                    coroutineScope.launch {
+                        viewModel.onLoginSelected()
+                    }
                 }
             }
         }
@@ -123,10 +129,22 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
 }
 
 @Composable
-fun HeaderImage(modifier: Modifier) {
-    Image(
-        painter = painterResource(id = R.drawable.welcome),
-        contentDescription = "Header",
-        modifier = modifier
-    )
+fun HeaderImage() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Bienvenido!",
+            color = Color(0xFFF7F7F2),
+            fontSize = 32.sp,
+            modifier = Modifier
+                .aspectRatio(16f / 7f)
+                .paint(
+                    painter = painterResource(R.drawable.welcome),
+                    contentScale = ContentScale.FillWidth
+                ),
+        )
+    }
 }

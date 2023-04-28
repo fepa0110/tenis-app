@@ -61,7 +61,7 @@ fun WelcomeScreen(
             ) {
                 Text(
                     text = "Bienvenido!",
-                    color = Color(0xFFF7F7F2),
+                    color = MaterialTheme.typography.labelSmall.color,
                     fontSize = 32.sp,
                     modifier = Modifier
                         .aspectRatio(16f / 7f)
