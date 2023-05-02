@@ -56,7 +56,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
     } else {
-        Column(modifier = Modifier.fillMaxWidth()){
+        Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()){
             HeaderImage()
             Column(verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
@@ -137,10 +137,10 @@ fun HeaderImage() {
     ) {
         Text(
             text = "Bienvenido!",
-            color = Color(0xFFF7F7F2),
+            color = MaterialTheme.typography.labelSmall.color,
             fontSize = 32.sp,
             modifier = Modifier
-                .aspectRatio(16f / 7f)
+                .aspectRatio(16f / 5f)
                 .paint(
                     painter = painterResource(R.drawable.welcome),
                     contentScale = ContentScale.FillWidth

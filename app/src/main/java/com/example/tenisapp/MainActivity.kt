@@ -39,15 +39,9 @@ fun MyApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "login") {
-        composable("welcome") {
-            WelcomeScreen(
-                modifier,
-                onNavigateToTournaments = { navController.navigate("tournamentsList") })
-        }
         composable("login") {
             LoginScreen(
                 LoginViewModel(onNavigateToTournaments = { navController.navigate("tournamentsList") }))
-                //onNavigateToTournaments = { navController.navigate("tournamentsList") })
         }
         composable("tournamentsList") { TournamentsScreen(modifier) }
         /*...*/
