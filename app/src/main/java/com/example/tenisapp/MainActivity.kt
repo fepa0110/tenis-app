@@ -1,5 +1,6 @@
 package com.example.tenisapp
 
+import TenisDatabase
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
 import com.example.tenisapp.screens.LoginScreen
 import com.example.tenisapp.screens.TournamentsScreen
 import com.example.tenisapp.ui.theme.TenisAppTheme
@@ -38,12 +40,19 @@ class MainActivity : ComponentActivity() {
 fun MyApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
+    val database = Room.databaseBuilder(
+                applicationContext,
+                TenisDatabase::class.java, "tenis"
+            ).build()
+    
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
             LoginScreen(
                 LoginViewModel(onNavigateToTournaments = { navController.navigate("tournamentsList") }))
         }
-        composable("tournamentsList") { TournamentsScreen(modifier) }
+        composable("tournamentsList") {
+            TournamentsScreen(modifier, database)
+        }
         /*...*/
     }
 

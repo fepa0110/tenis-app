@@ -1,4 +1,4 @@
-package com.example.tenisapp.entities
+package com.example.tenisapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
