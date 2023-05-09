@@ -4,9 +4,12 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.tenisapp.data.repository.UserRepository
 import kotlinx.coroutines.delay
 
-class LoginViewModel(onNavigateToTournaments: () -> Unit) : ViewModel() {
+class LoginViewModel(private val onNavigateToTournaments: () -> Unit,
+                        private val userRepository: UserRepository
+) : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
@@ -19,7 +22,7 @@ class LoginViewModel(onNavigateToTournaments: () -> Unit) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    val navigateToTournaments = onNavigateToTournaments;
+    // val navigateToTournaments = onNavigateToTournaments;
 
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
@@ -35,7 +38,7 @@ class LoginViewModel(onNavigateToTournaments: () -> Unit) : ViewModel() {
         _isLoading.value = true
         delay(4000)
         _isLoading.value = false
-        this.navigateToTournaments()
+        onNavigateToTournaments()
     }
 
 }
