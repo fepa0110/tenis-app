@@ -4,12 +4,21 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tenisapp.data.repository.UserRepository
-import kotlinx.coroutines.delay
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 
-class LoginViewModel(private val onNavigateToTournaments: () -> Unit,
-                        private val userRepository: UserRepository
-) : ViewModel() {
+import com.example.tenisapp.data.repository.UsersRepository
+import com.example.tenisapp.data.model.Tournament
+import com.example.tenisapp.data.model.User
+import com.example.tenisapp.data.repository.UserRepositoryInterface
+
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+
+// TODO: Revisar correcto pasaje de navigate
+class LoginViewModel(usersRepository: UserRepositoryInterface) : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
@@ -22,7 +31,23 @@ class LoginViewModel(private val onNavigateToTournaments: () -> Unit,
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    // val navigateToTournaments = onNavigateToTournaments;
+/**
+     * Holds home ui state. The list of items are retrieved from [UsersRepository] and mapped to
+     * [UsersUiState]
+     */
+    val loginUiState: StateFlow<UsersUiState> =
+                usersRepository
+                    .getAllUsersStream()
+                    .map { UsersUiState(it) }
+                    .stateIn(
+                            scope = viewModelScope,
+                            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                            initialValue = UsersUiState()
+                    )
+
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
+    }
 
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
@@ -38,7 +63,10 @@ class LoginViewModel(private val onNavigateToTournaments: () -> Unit,
         _isLoading.value = true
         delay(4000)
         _isLoading.value = false
-        onNavigateToTournaments()
+        // onNavigateToTournaments()
     }
 
 }
+
+/** Ui State for TournamentsScreen */
+data class UsersUiState(val usersList: List<User> = listOf())
