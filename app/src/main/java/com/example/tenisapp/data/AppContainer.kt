@@ -8,7 +8,7 @@ import com.example.tenisapp.data.repository.UserRepositoryInterface
 
 interface AppContainer {
     val tournamentsRepository: TournamentRepositoryInterface
-    val usersRepository: UserRepositoryInterface
+    //val usersRepository: UserRepositoryInterface
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
@@ -22,7 +22,7 @@ class AppDataContainer(private val context: Context) : AppContainer {
     /**
      * Implementation for [UsersRepository]
      */
-    override val usersRepository: UserRepositoryInterface by lazy {
-        UsersRepository(TenisDatabase.getDatabase(context).userDao())
-    }
+    //override val usersRepository: UserRepositoryInterface by lazy {
+    //    UsersRepository(TenisDatabase.getDatabase(context).userDao())
+    //}
 }

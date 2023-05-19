@@ -13,7 +13,7 @@ object AppViewModelProvider {
     val Factory = viewModelFactory {
         // Initializer for HomeViewModel
         initializer { TournamentsViewModel(tenisApplication().container.tournamentsRepository) }
-        initializer { LoginViewModel(tenisApplication().container.usersRepository) }
+        //initializer { LoginViewModel(tenisApplication().container.usersRepository) }
     }
 }
 

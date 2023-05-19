@@ -20,7 +20,7 @@ fun TenisNavHost(
 ) {
     // val navController = rememberNavController()
     
-    NavHost(navController = navController, startDestination = "login",modifier = modifier) {
+    NavHost(navController = navController, startDestination = "tournamentsList",modifier = modifier) {
         composable("login") {
             LoginScreen(onNavigateToTournaments = {navController.navigate("tournamentsList")})
         }
