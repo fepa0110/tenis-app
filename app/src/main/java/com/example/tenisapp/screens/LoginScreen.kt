@@ -2,12 +2,9 @@
 
 package com.example.tenisapp.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import TenisViewModelProvider
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.material.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,19 +21,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.example.tenisapp.R
 import com.example.tenisapp.viewModel.LoginViewModel
-import com.example.tenisapp.AppViewModelProvider
+//import com.example.tenisapp.AppViewModelProvider
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(onNavigateToTournaments: () -> Unit, viewModel: LoginViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
+fun LoginScreen(onNavigateToTournaments: () -> Unit, viewModelProvider : TenisViewModelProvider) {
+    val viewModel: LoginViewModel = viewModelProvider.getLoginViewModel() as LoginViewModel
+
     Box(
+        
         Modifier
             .fillMaxSize()
             .padding(16.dp)

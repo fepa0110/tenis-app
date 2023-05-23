@@ -1,5 +1,6 @@
 package com.example.tenisapp.screens
 
+import TenisViewModelProvider
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,12 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
+import com.example.tenisapp.viewModel.TournamentsViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TournamentsScreen(
     modifier: Modifier,
+    viewModelProvider : TenisViewModelProvider,
     tournaments: List<String> = listOf("Grand Slam", "ATP Tour")
 ) {
+    val viewModel: TournamentsViewModel = viewModelProvider.getTournamentsViewModel() as TournamentsViewModel
+
     Scaffold(
         topBar = {
             TopAppBar(

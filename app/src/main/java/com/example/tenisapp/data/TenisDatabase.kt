@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
 import com.example.tenisapp.data.dao.TournamentDao
 import com.example.tenisapp.data.dao.UserDao
 import com.example.tenisapp.data.model.Tournament
@@ -14,25 +15,10 @@ import com.example.tenisapp.data.model.User
         Tournament::class,
         User::class
     ],
-    version = 1,
-    exportSchema = false
+    version = 1
 )
+//@TypeConverter(Converter::class)
 abstract class TenisDatabase : RoomDatabase() {
-    abstract fun tournamentDao(): TournamentDao
-    abstract fun userDao(): UserDao
-
-    companion object {
-        @Volatile
-        private var Instance: TenisDatabase? = null
-
-        fun getDatabase(context: Context): TenisDatabase {
-            // if the Instance is not null, return it, otherwise create a new database instance.
-            return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, TenisDatabase::class.java, "tenis")
-                    .build()
-                    .also { Instance = it }
-            }
-        }
-    }
-
+    abstract val tournamentDao: TournamentDao
+    abstract val userDao: UserDao
 }

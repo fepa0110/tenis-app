@@ -1,12 +1,11 @@
 package com.example.tenisapp.navigation
 
+import TenisViewModelProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.tenisapp.screens.LoginScreen
 import com.example.tenisapp.screens.TournamentsScreen
 
@@ -15,6 +14,7 @@ import com.example.tenisapp.screens.TournamentsScreen
  */
 @Composable
 fun TenisNavHost(
+    viewModelProvider: TenisViewModelProvider,
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
@@ -22,11 +22,10 @@ fun TenisNavHost(
     
     NavHost(navController = navController, startDestination = "tournamentsList",modifier = modifier) {
         composable("login") {
-            LoginScreen(onNavigateToTournaments = {navController.navigate("tournamentsList")})
+            LoginScreen(onNavigateToTournaments = {navController.navigate("tournamentsList")}, viewModelProvider = viewModelProvider)
         }
         composable("tournamentsList") {
-            TournamentsScreen(modifier)
+            TournamentsScreen(modifier, viewModelProvider = viewModelProvider)
         }
-        /*...*/
     }
 }

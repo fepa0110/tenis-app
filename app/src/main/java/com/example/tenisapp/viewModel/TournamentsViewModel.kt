@@ -33,7 +33,7 @@ class TournamentsViewModel(tournamentsRepository: TournamentRepositoryInterface)
      * Holds home ui state. The list of items are retrieved from [TournamentsRepository] and mapped to
      * [TournamentsUiState]
      */
-    val homeUiState: StateFlow<TournamentsUiState> =
+    val tournamentsUiState: StateFlow<TournamentsUiState> =
             tournamentsRepository
                     .getAllTournamentsStream()
                     .map { TournamentsUiState(it) }
@@ -49,4 +49,4 @@ class TournamentsViewModel(tournamentsRepository: TournamentRepositoryInterface)
 }
 
 /** Ui State for TournamentsScreen */
-data class TournamentsUiState(val itemList: List<Tournament> = listOf())
+data class TournamentsUiState(val tournamentsList: List<Tournament> = listOf())

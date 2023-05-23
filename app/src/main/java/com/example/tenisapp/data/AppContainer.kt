@@ -5,24 +5,26 @@ import com.example.tenisapp.data.repository.TournamentRepositoryInterface
 import com.example.tenisapp.data.repository.TournamentsRepository
 import com.example.tenisapp.data.repository.UsersRepository
 import com.example.tenisapp.data.repository.UserRepositoryInterface
+import androidx.room.RoomDatabase
 
 interface AppContainer {
     val tournamentsRepository: TournamentRepositoryInterface
-    //val usersRepository: UserRepositoryInterface
+    val usersRepository: UserRepositoryInterface
 }
 
-class AppDataContainer(private val context: Context) : AppContainer {
+//? Si falla probar quitando la herencia de AppContainer
+class AppDataContainer(tenisDatabase: TenisDatabase) : AppContainer {
     /**
      * Implementation for [TournamentsRepository]
      */
     override val tournamentsRepository: TournamentRepositoryInterface by lazy {
-        TournamentsRepository(TenisDatabase.getDatabase(context).tournamentDao())
+        TournamentsRepository(tenisDatabase.tournamentDao)
     }
 
     /**
      * Implementation for [UsersRepository]
      */
-    //override val usersRepository: UserRepositoryInterface by lazy {
-    //    UsersRepository(TenisDatabase.getDatabase(context).userDao())
-    //}
+    override val usersRepository: UserRepositoryInterface by lazy {
+        UsersRepository(tenisDatabase.userDao)
+    }
 }

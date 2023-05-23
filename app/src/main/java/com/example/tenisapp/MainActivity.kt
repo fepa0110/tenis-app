@@ -1,5 +1,6 @@
 package com.example.tenisapp
 
+import TenisViewModelProvider
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.room.Room
+import com.example.tenisapp.data.AppDataContainer
+import com.example.tenisapp.data.TenisDatabase
 import com.example.tenisapp.ui.theme.TenisAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,6 +20,15 @@ class MainActivity : ComponentActivity() {
             TournamentsRepository(TenisDatabase.getDatabase(context).itemDao())
         } */
 
+        val tenisDatabase: TenisDatabase = Room
+            .databaseBuilder(this, TenisDatabase::class.java, "tenis-database")
+            // .addTypeConverter(Converter())
+            .build()
+
+        val repositoryProvider = AppDataContainer(tenisDatabase)
+
+        val viewModelProvider = TenisViewModelProvider(repositoryProvider)
+
         super.onCreate(savedInstanceState)
         setContent {
             TenisAppTheme {
@@ -23,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TenisApp()
+                    TenisApp(viewModelProvider)
                 }
             }
         }
