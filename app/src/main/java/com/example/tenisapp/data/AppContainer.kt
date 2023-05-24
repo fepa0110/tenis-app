@@ -18,13 +18,13 @@ class AppDataContainer(tenisDatabase: TenisDatabase) : AppContainer {
      * Implementation for [TournamentsRepository]
      */
     override val tournamentsRepository: TournamentRepositoryInterface by lazy {
-        TournamentsRepository(tenisDatabase.tournamentDao)
+        TournamentsRepository(tenisDatabase.tournamentDao())
     }
 
     /**
      * Implementation for [UsersRepository]
      */
     override val usersRepository: UserRepositoryInterface by lazy {
-        UsersRepository(tenisDatabase.userDao)
+        UsersRepository(tenisDatabase.userDao())
     }
 }

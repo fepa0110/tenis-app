@@ -1,10 +1,8 @@
 package com.example.tenisapp.data
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.example.tenisapp.data.dao.TournamentDao
 import com.example.tenisapp.data.dao.UserDao
 import com.example.tenisapp.data.model.Tournament
@@ -15,10 +13,11 @@ import com.example.tenisapp.data.model.User
         Tournament::class,
         User::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
-//@TypeConverter(Converter::class)
+//@TypeConverters(Converter::class)
 abstract class TenisDatabase : RoomDatabase() {
-    abstract val tournamentDao: TournamentDao
-    abstract val userDao: UserDao
+    abstract fun tournamentDao(): TournamentDao
+    abstract fun userDao(): UserDao
 }

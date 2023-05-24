@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         } */
 
         val tenisDatabase: TenisDatabase = Room
-            .databaseBuilder(this, TenisDatabase::class.java, "tenis-database")
+            .databaseBuilder(this, TenisDatabase::class.java, "tenisDatabase")
             // .addTypeConverter(Converter())
             .build()
 
