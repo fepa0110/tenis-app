@@ -17,8 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-// TODO: Revisar correcto pasaje de navigate
-class LoginViewModel(usersRepository: UserRepositoryInterface) : ViewModel() {
+class LoginViewModel(usersRepository: UserRespositoryInterface) : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
@@ -30,24 +29,6 @@ class LoginViewModel(usersRepository: UserRepositoryInterface) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-/**
-     * Holds home ui state. The list of items are retrieved from [UsersRepository] and mapped to
-     * [UsersUiState]
-     */
-    val loginUiState: StateFlow<UsersUiState> =
-                usersRepository
-                    .getAllUsersStream()
-                    .map { UsersUiState(it) }
-                    .stateIn(
-                            scope = viewModelScope,
-                            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                            initialValue = UsersUiState()
-                    )
-
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
 
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
@@ -67,6 +48,3 @@ class LoginViewModel(usersRepository: UserRepositoryInterface) : ViewModel() {
     }
 
 }
-
-/** Ui State for TournamentsScreen */
-data class UsersUiState(val usersList: List<User> = listOf())
