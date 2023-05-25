@@ -1,5 +1,6 @@
 package com.example.tenisapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.tenisapp.data.dao.TournamentDao
 import com.example.tenisapp.data.model.Tournament
 import kotlinx.coroutines.flow.Flow
@@ -12,5 +13,5 @@ interface TournamentRepositoryInterface {
 }
 
 class TournamentsRepository(private val tournamentDao: TournamentDao) : TournamentRepositoryInterface{
-    override fun getAllTournamentsStream(): Flow<List<Tournament>> =  tournamentDao.getAll()
+    override fun getAllTournamentsStream() = tournamentDao.getAll()
 }

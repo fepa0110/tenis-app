@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tenisapp.data.repository.TournamentsRepository
 import com.example.tenisapp.data.model.Tournament
 import com.example.tenisapp.data.repository.TournamentRepositoryInterface
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -29,11 +30,13 @@ import kotlinx.coroutines.flow.stateIn
 /** View Model to retrieve all items in the Room database. */
 class TournamentsViewModel(tournamentsRepository: TournamentRepositoryInterface) : ViewModel() {
 
+
+    val tournaments: Flow<List<Tournament>> = tournamentsRepository.getAllTournamentsStream();
     /**
      * Holds home ui state. The list of items are retrieved from [TournamentsRepository] and mapped to
      * [TournamentsUiState]
      */
-    val tournamentsUiState: StateFlow<TournamentsUiState> =
+/*     val tournamentsUiState: StateFlow<TournamentsUiState> =
             tournamentsRepository
                     .getAllTournamentsStream()
                     .map { TournamentsUiState(it) }
@@ -45,8 +48,9 @@ class TournamentsViewModel(tournamentsRepository: TournamentRepositoryInterface)
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
-    }
+    } */
 }
 
+
 /** Ui State for TournamentsScreen */
-data class TournamentsUiState(val tournamentsList: List<Tournament> = listOf())
+// data class TournamentsUiState(val tournamentsList: List<Tournament> = listOf())

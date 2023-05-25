@@ -1,6 +1,7 @@
 package com.example.tenisapp.screens
 
 import TenisViewModelProvider
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,22 +18,36 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.tenisapp.data.model.Tournament
 
 import com.example.tenisapp.viewModel.TournamentsViewModel
+import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TournamentsScreen(
     modifier: Modifier,
     viewModelProvider : TenisViewModelProvider,
-    tournaments: List<String> = listOf("Grand Slam", "ATP Tour")
+    //
 ) {
-    val viewModel: TournamentsViewModel = viewModelProvider.getTournamentsViewModel() as TournamentsViewModel
+    val tournamentsViewModel: TournamentsViewModel = viewModelProvider.getTournamentsViewModel() as TournamentsViewModel
+
+    val lifecycleScope = rememberCoroutineScope()
+    var tournamentsList: List<Tournament> = listOf()
+
+    lifecycleScope.launch {
+        tournamentsViewModel.tournaments.collect { tournaments ->
+            tournamentsList = tournaments
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -64,10 +79,9 @@ fun TournamentsScreen(
         },
         content = { innerPadding ->
             LazyColumn(contentPadding = innerPadding, modifier = Modifier.padding(vertical = 5.dp)) {
-                for (tournament in tournaments) {
+                for (aTournament in tournamentsList) {
                     item {
-                        TournamentRow(tournament)
-                        //Spacer(Modifier.size(12.dp))
+                        TournamentRow(aTournament.nombre)
                     }
                 }
             }
