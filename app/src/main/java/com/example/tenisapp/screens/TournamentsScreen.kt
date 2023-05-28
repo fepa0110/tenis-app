@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tenisapp.data.model.Tournament
 
 import com.example.tenisapp.viewModel.TournamentsViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -36,18 +37,14 @@ import kotlinx.coroutines.launch
 fun TournamentsScreen(
     modifier: Modifier,
     viewModelProvider : TenisViewModelProvider,
-    //
 ) {
     val tournamentsViewModel: TournamentsViewModel = viewModelProvider.getTournamentsViewModel() as TournamentsViewModel
 
     val lifecycleScope = rememberCoroutineScope()
-    var tournamentsList: List<Tournament> = listOf()
 
-    lifecycleScope.launch {
-        tournamentsViewModel.tournaments.collect { tournaments ->
-            tournamentsList = tournaments
-        }
-    }
+    tournamentsViewModel.tournamentUiState.tournaments
+
+    val tournamentsList: List<Tournament> = tournamentsViewModel.tournamentUiState.tournaments
 
     Scaffold(
         topBar = {
@@ -89,6 +86,7 @@ fun TournamentsScreen(
     )
 
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class LoginViewModel(usersRepository: UserRespositoryInterface) : ViewModel() {
+class LoginViewModel(private val usersRepository: UserRepositoryInterface) : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
