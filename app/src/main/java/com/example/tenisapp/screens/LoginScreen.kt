@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,23 +36,15 @@ fun LoginScreen(onNavigateToTournaments: () -> Unit, viewModelProvider : TenisVi
     val viewModel: LoginViewModel = viewModelProvider.getLoginViewModel() as LoginViewModel
 
     Box(
-        
-        Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        Modifier.fillMaxSize()
     ) {
-        Login(Modifier.align(Alignment.Center), viewModel)
+        Login(Modifier.align(Alignment.Center), viewModel, onNavigateToTournaments)
     }
 }
 
 @Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel) {
-
-    val email: String by viewModel.email.observeAsState(initial = "")
-    val password: String by viewModel.password.observeAsState(initial = "")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
+fun Login(modifier: Modifier, viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit) {
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
-    val coroutineScope = rememberCoroutineScope()
 
     if (isLoading) {
         Box(Modifier.fillMaxSize()) {
@@ -60,38 +53,54 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
     } else {
         Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()){
             HeaderImage()
-            Column(verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-
-                Spacer(modifier = Modifier.padding(16.dp))
-                EmailField(email) { viewModel.onLoginChanged(it, password) }
-                Spacer(modifier = Modifier.padding(4.dp))
-                PasswordField(password) { viewModel.onLoginChanged(email, it) }
-                Spacer(modifier = Modifier.padding(8.dp))
-                Spacer(modifier = Modifier.padding(16.dp))
-                LoginButton(loginEnable) {
-                    coroutineScope.launch {
-                        viewModel.onLoginSelected()
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.padding(16.dp))
+            LoginForm(viewModel, onNavigateToTournaments)
         }
     }
 }
 
 @Composable
+fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
+    val email: String by viewModel.email.observeAsState(initial = "")
+    val password: String by viewModel.password.observeAsState(initial = "")
+    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = 16.dp)
+    ) {
+
+        Spacer(modifier = Modifier.padding(16.dp))
+        EmailField(email) { viewModel.onLoginChanged(it, password) }
+        Spacer(modifier = Modifier.padding(4.dp))
+        PasswordField(password) { viewModel.onLoginChanged(email, it) }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
+        LoginButton(loginEnable) {
+            coroutineScope.launch {
+                viewModel.onLoginSelected()
+            }
+            onNavigateToTournaments()
+        }
+    }
+}
+@Composable
 fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
     Button(
         onClick = { onLoginSelected() },
         enabled = loginEnable,
+        shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(
-            contentColor = Color.White,
+            contentColor = MaterialTheme.colorScheme.primary,
             disabledContentColor = Color.White
-        )
+        ),
+        modifier = Modifier.size(width = 240.dp, height = 40.dp)
     ) {
         Text(
             text = "Login",
             fontSize = 16.sp,
+            color = MaterialTheme.typography.labelSmall.color
         )
     }
 }
@@ -106,7 +115,9 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.typography.labelSmall.color,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            textColor = MaterialTheme.typography.headlineSmall.color,
+            placeholderColor = MaterialTheme.typography.headlineSmall.color,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -123,7 +134,9 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.typography.labelSmall.color,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            textColor = MaterialTheme.typography.headlineSmall.color,
+            placeholderColor = MaterialTheme.typography.headlineSmall.color,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -133,7 +146,11 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
 @Composable
 fun HeaderImage() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .paint(
+                painter = painterResource(R.drawable.welcome),
+                contentScale = ContentScale.FillWidth
+            ),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -141,12 +158,6 @@ fun HeaderImage() {
             text = "Bienvenido!",
             color = MaterialTheme.typography.labelSmall.color,
             fontSize = 32.sp,
-            modifier = Modifier
-                .aspectRatio(16f / 5f)
-                .paint(
-                    painter = painterResource(R.drawable.welcome),
-                    contentScale = ContentScale.FillWidth
-                ),
         )
     }
 }

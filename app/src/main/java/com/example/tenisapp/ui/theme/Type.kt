@@ -23,7 +23,23 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
-        color = Color(0xFFF7F7F2)
+        color = GunMetal
+    ),
+    displaySmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp,
+        color = Color.Black
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp,
+        color = BabyPowder
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
