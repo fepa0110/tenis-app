@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.tenisapp.data.dao.TournamentDao
 import com.example.tenisapp.data.model.Tournament
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 interface TournamentRepositoryInterface {
     /**

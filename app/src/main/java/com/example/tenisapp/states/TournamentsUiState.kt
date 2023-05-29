@@ -3,7 +3,8 @@ package com.example.tenisapp.states
 import com.example.tenisapp.data.model.Tournament
 
 data class TournamentUiState(
-    val tournaments : List<Tournament> = listOf()
+    val tournaments : List<Tournament> = emptyList(),
+    val name : String = ""
 )
 
 /*fun TournamentUiState.toTournament(): Tournament = Tournament(

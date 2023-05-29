@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import com.example.tenisapp.states.TournamentUiState
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class TournamentsViewModel(private val tournamentsRepository: TournamentRepositoryInterface) : ViewModel() {
@@ -22,12 +23,18 @@ class TournamentsViewModel(private val tournamentsRepository: TournamentReposito
         private set
     init {
         viewModelScope.launch {
-            tournamentsRepository.getAllTournamentsStream().collect {
+            tournamentsRepository.getAllTournamentsStream().collectLatest {
                 tournamentUiState = tournamentUiState.copy(
                     tournaments = it
                 )
             }
         }
+    }
+
+    fun updateNombre(nombre: String){
+        tournamentUiState = tournamentUiState.copy(
+            name = nombre
+        )
     }
 
     companion object {

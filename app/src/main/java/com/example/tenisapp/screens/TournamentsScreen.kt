@@ -17,6 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -42,21 +45,26 @@ fun TournamentsScreen(
 
     val lifecycleScope = rememberCoroutineScope()
 
-    tournamentsViewModel.tournamentUiState.tournaments
+    // tournamentsViewModel.tournamentUiState.tournaments
 
-    val tournamentsList: List<Tournament> = tournamentsViewModel.tournamentUiState.tournaments
+    val tournamentsState = tournamentsViewModel.tournamentUiState
+    // val tournamentsList: List<Tournament> = tournamentsViewModel.tournamentUiState.tournaments
 
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ),
                 title = {
                     Text(
                         "Torneos",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.typography.labelSmall.color
                     )
                 },
-                navigationIcon = {
+                /* navigationIcon = {
                     IconButton(onClick = { /* doSomething() */ }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
@@ -71,16 +79,19 @@ fun TournamentsScreen(
                             contentDescription = "Localized description"
                         )
                     }
-                }
+                } */
             )
         },
         content = { innerPadding ->
             LazyColumn(contentPadding = innerPadding, modifier = Modifier.padding(vertical = 5.dp)) {
-                for (aTournament in tournamentsList) {
-                    item {
-                        TournamentRow(aTournament.nombre)
-                    }
+                items(tournamentsState.tournaments){
+                    TournamentRow(it.nombre)
                 }
+                /*for (aTournament in tournamentsState.tournaments) {
+                    item {
+
+                    }
+                }*/
             }
         }
     )
