@@ -19,17 +19,19 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = Jade,
     secondary = MidnightGreen,
-    tertiary = Jade,
+    tertiary = GunMetal,
     background = Licorice,
-    primaryContainer = GunMetal
+    primaryContainer = GunMetal,
+    onPrimary = BabyPowder
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Jade,
     secondary = MidnightGreen,
-    tertiary = Jade,
+    tertiary = GunMetal,
     background = BabyPowder,
-    primaryContainer = GunMetal
+    primaryContainer = GunMetal,
+    onPrimary = BabyPowder
     /* Other default colors to override
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,

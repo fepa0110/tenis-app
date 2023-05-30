@@ -27,6 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.example.tenisapp.R
+import com.example.tenisapp.components.PrimaryButton
+import com.example.tenisapp.components.SecondaryButton
+import com.example.tenisapp.components.TertiaryButton
+
 import com.example.tenisapp.viewModel.LoginViewModel
 //import com.example.tenisapp.AppViewModelProvider
 import kotlinx.coroutines.launch
@@ -51,7 +55,9 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel, onNavigateToTournaments
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
     } else {
-        Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()){
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()){
             HeaderImage()
             Spacer(modifier = Modifier.padding(16.dp))
             LoginForm(viewModel, onNavigateToTournaments)
@@ -74,37 +80,25 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
         Spacer(modifier = Modifier.padding(16.dp))
         EmailField(email) { viewModel.onLoginChanged(it, password) }
         Spacer(modifier = Modifier.padding(4.dp))
-        PasswordField(password) { viewModel.onLoginChanged(email, it) }
+        PasswordField(password) { viewModel.onLoginChanged(email
+            , it)
+        }
         Spacer(modifier = Modifier.padding(8.dp))
         Spacer(modifier = Modifier.padding(16.dp))
-        LoginButton(loginEnable) {
+        /*LoginButton(loginEnable) {
             coroutineScope.launch {
                 viewModel.onLoginSelected()
             }
             onNavigateToTournaments()
-        }
-    }
-}
-@Composable
-fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
-    Button(
-        onClick = { onLoginSelected() },
-        enabled = loginEnable,
-        shape = RectangleShape,
-        colors = ButtonDefaults.buttonColors(
-            contentColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = Color.White
-        ),
-        modifier = Modifier.size(width = 240.dp, height = 40.dp)
-    ) {
-        Text(
+        }*/
+        PrimaryButton(
             text = "Login",
-            fontSize = 16.sp,
-            color = MaterialTheme.typography.labelSmall.color
+            onClick = { onNavigateToTournaments() },
+            enabled = loginEnable
         )
     }
 }
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
@@ -146,7 +140,8 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
 @Composable
 fun HeaderImage() {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .paint(
                 painter = painterResource(R.drawable.welcome),
                 contentScale = ContentScale.FillWidth
@@ -156,8 +151,7 @@ fun HeaderImage() {
     ) {
         Text(
             text = "Bienvenido!",
-            color = MaterialTheme.typography.labelSmall.color,
-            fontSize = 32.sp,
+            style = MaterialTheme.typography.displayLarge
         )
     }
 }

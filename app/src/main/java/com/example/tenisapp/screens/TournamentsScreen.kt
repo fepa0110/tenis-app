@@ -61,7 +61,8 @@ fun TournamentsScreen(
                         "Torneos",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.typography.labelSmall.color
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 /* navigationIcon = {

@@ -40,6 +40,7 @@ class TournamentsViewModel(private val tournamentsRepository: TournamentReposito
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
+    
     suspend fun create(tournament: Tournament) {
         tournamentsRepository.create(tournament)
     }
