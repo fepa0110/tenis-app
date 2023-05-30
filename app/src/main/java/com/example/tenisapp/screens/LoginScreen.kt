@@ -96,6 +96,11 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
             onClick = { onNavigateToTournaments() },
             enabled = loginEnable
         )
+        TertiaryButton(
+            text = "Ingresar como arbitro",
+            onClick = { },
+            enabled = true
+        )
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
