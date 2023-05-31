@@ -1,6 +1,5 @@
 package com.example.tenisapp
 
-import TenisViewModelProvider
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
