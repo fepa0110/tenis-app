@@ -11,4 +11,7 @@ import com.example.tenisapp.data.model.User
 interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll(): Flow<List<User>>
+
+    @Query("SELECT * FROM user WHERE user.username = username AND user.password = password")
+    fun findUserByUsernamePassword(): Flow<User>
 }
