@@ -90,6 +90,9 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
             onClick = { onNavigateToTournaments() },
             enabled = loginEnable
         )
+        
+        Spacer(modifier = Modifier.padding(16.dp))
+
         TertiaryButton(
             text = "Ingresar como arbitro",
             onClick = { onNavigateToTournaments() },
