@@ -1,5 +1,6 @@
 package com.example.tenisapp
 
+import com.example.tenisapp.data.converters.Converter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,8 +21,8 @@ class MainActivity : ComponentActivity() {
         } */
 
         val tenisDatabase: TenisDatabase = Room
-            .databaseBuilder(this, TenisDatabase::class.java, "tenisDatabase")
-            // .addTypeConverter(Converter())
+            .databaseBuilder(this, TenisDatabase::class.java, "tenisDatabase2")
+            .addTypeConverter(Converter())
             .build()
 
         val repositoryProvider = AppDataContainer(tenisDatabase)

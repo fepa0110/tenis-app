@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,8 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import com.example.tenisapp.data.model.Tournament
 
 import com.example.tenisapp.viewModel.TournamentsViewModel
+import kotlinx.coroutines.launch
+import java.util.Date
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +92,17 @@ fun TournamentsScreen(
 
                     }
                 }*/
+
             }
+            FloatingActionButton(onClick = {
+                lifecycleScope.launch {
+                    tournamentsViewModel.create(Tournament(nombre = "Torneo 1", fecha = Date()))
+                }
+            }) {
+                Icon(Icons.Filled.Add, contentDescription = "Add tournament")
+            }
+
+
         }
     )
 

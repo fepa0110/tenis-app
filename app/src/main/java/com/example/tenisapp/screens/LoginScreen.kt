@@ -112,8 +112,8 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            textColor = MaterialTheme.typography.headlineSmall.color,
-            placeholderColor = MaterialTheme.typography.headlineSmall.color,
+            textColor = MaterialTheme.colorScheme.onPrimary,
+            placeholderColor = MaterialTheme.colorScheme.onPrimary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -131,8 +131,8 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            textColor = MaterialTheme.typography.headlineSmall.color,
-            placeholderColor = MaterialTheme.typography.headlineSmall.color,
+            textColor = MaterialTheme.colorScheme.onPrimary,
+            placeholderColor = MaterialTheme.colorScheme.onPrimary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -152,7 +152,7 @@ fun HeaderImage() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Bienvenido!",
+            text = "Bienvenido",
             style = MaterialTheme.typography.displayLarge
         )
     }
