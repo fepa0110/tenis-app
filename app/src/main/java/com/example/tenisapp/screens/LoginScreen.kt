@@ -20,13 +20,18 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 import com.example.tenisapp.R
 import com.example.tenisapp.components.PrimaryButton
 import com.example.tenisapp.components.TertiaryButton
+import com.example.tenisapp.data.model.User
 
 import com.example.tenisapp.viewModel.LoginViewModel
+import kotlinx.coroutines.launch
+
 //import com.example.tenisapp.AppViewModelProvider
 
 @Composable
@@ -61,7 +66,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel, onNavigateToTournaments
 
 @Composable
 fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
-    val email: String by viewModel.email.observeAsState(initial = "")
+    val username: String by viewModel.username.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial = "")
     val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
     val coroutineScope = rememberCoroutineScope()
@@ -72,9 +77,9 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
     ) {
 
         Spacer(modifier = Modifier.padding(16.dp))
-        EmailField(email) { viewModel.onLoginChanged(it, password) }
+        UsernameField(username) { viewModel.onLoginChanged(it, password) }
         Spacer(modifier = Modifier.padding(4.dp))
-        PasswordField(password) { viewModel.onLoginChanged(email
+        PasswordField(password) { viewModel.onLoginChanged(username
             , it)
         }
         Spacer(modifier = Modifier.padding(8.dp))
@@ -87,8 +92,14 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
         }*/
         PrimaryButton(
             text = "Login",
-            onClick = { onNavigateToTournaments() },
-            enabled = loginEnable
+            enabled = loginEnable,
+            onClick = {
+                coroutineScope.launch {
+                    if(viewModel.findUsername(username,password).userId != 0){
+                        onNavigateToTournaments()
+                    }
+                }
+            }
         )
         
         Spacer(modifier = Modifier.padding(16.dp))
@@ -96,6 +107,16 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
         TertiaryButton(
             text = "Ingresar como arbitro",
             onClick = { onNavigateToTournaments() },
+            enabled = true
+        )
+
+        TertiaryButton(
+            text = "Nuevo usuario",
+            onClick = {
+                coroutineScope.launch {
+                    viewModel.create(User(username="usuario", password = "123456"))
+                }
+            },
             enabled = true
         )
     }
@@ -108,6 +129,7 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         placeholder = { Text("Contraseña") },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        visualTransformation = PasswordVisualTransformation(),
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
@@ -121,12 +143,12 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
 }
 
 @Composable
-fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
+fun UsernameField(username: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
-        value = email, onValueChange = { onTextFieldChanged(it) },
+        value = username, onValueChange = { onTextFieldChanged(it) },
         modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = "Email") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        placeholder = { Text(text = "Username") },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(

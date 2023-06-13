@@ -2,6 +2,8 @@ package com.example.tenisapp.data.dao
 
 import com.example.tenisapp.data.model.TournamentsSubcribed
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 
@@ -13,6 +15,9 @@ import com.example.tenisapp.data.model.User
 interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll(): Flow<List<User>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(user: User)
 
     @Query("SELECT * FROM user WHERE username = :username AND password = :password")
     fun findUserByUsernamePassword(username: String, password: String): Flow<User>

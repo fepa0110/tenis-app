@@ -10,6 +10,8 @@ interface UserRepositoryInterface {
      */
     fun getAllUsersStream(): Flow<List<User>>
 
+    suspend fun create(user: User)
+
     fun findUserByUsernamePassword(username: String, password: String): Flow<User>
 }
 
@@ -20,6 +22,10 @@ class UsersRepository(private val userDao: UserDao) : UserRepositoryInterface {
     
     override fun getAllUsersStream(): Flow<List<User>> =  userDao.getAll()
     
+    override suspend fun create(user: User){
+        userDao.insert(user);
+    }
+
     override fun findUserByUsernamePassword(username: String, password: String): Flow<User> {
         return userDao.findUserByUsernamePassword(username, password)
     } 
