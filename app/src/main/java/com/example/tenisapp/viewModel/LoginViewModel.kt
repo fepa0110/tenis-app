@@ -1,26 +1,18 @@
 package com.example.tenisapp.viewModel
 
-import android.util.Patterns
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 
-import com.example.tenisapp.data.repository.UsersRepository
-import com.example.tenisapp.data.model.Tournament
-import com.example.tenisapp.data.model.User
+import com.example.tenisapp.firebase.model.User
 import com.example.tenisapp.data.repository.UserRepositoryInterface
-import com.example.tenisapp.states.UserLoginUiState
+import com.example.tenisapp.firebase.service.UserService
 
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 
-class LoginViewModel(private val usersRepository: UserRepositoryInterface) : ViewModel() {
+class LoginViewModel(private val usersRepository: UserRepositoryInterface,
+            private val userService: UserService
+) : ViewModel() {
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
 
@@ -50,19 +42,8 @@ class LoginViewModel(private val usersRepository: UserRepositoryInterface) : Vie
         // onNavigateToTournaments()
     }
 
-    suspend fun findUsername(username: String, password: String): User {
-        //_isLoading.value = true
-        _username.value = username
-        _password.value = password
-
-        var userLogin : User = User(0,"","")
-        usersRepository.findUserByUsernamePassword(username,password).collect { user -> userLogin = user}
-
-        return userLogin
-    }
-
-    suspend fun create(user: User) {
-        usersRepository.create(user)
+    fun findUsername(username: String, password: String) : User? {
+        return userService.getUserByUsername(username)
     }
 
 }

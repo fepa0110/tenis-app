@@ -11,6 +11,7 @@ interface TournamentRepositoryInterface {
      * Retrieve all the items from the the given data source.
      */
     fun getAllTournamentsStream(): Flow<List<Tournament>>
+    
     suspend fun create(tournament: Tournament)
 }
 

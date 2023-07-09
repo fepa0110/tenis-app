@@ -2,6 +2,7 @@
 
 package com.example.tenisapp.screens
 
+import android.util.Log
 import com.example.tenisapp.TenisViewModelProvider
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -95,9 +96,12 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
             enabled = loginEnable,
             onClick = {
                 coroutineScope.launch {
-                    if(viewModel.findUsername(username,password).userId != 0){
-                        onNavigateToTournaments()
+                    if(viewModel.findUsername(username,password) != null){
+                        Log.d("LoginScreen", "Recibi el usuario")
                     }
+                    /*if(viewModel.findUsername(username,password).userId != 0){
+                        onNavigateToTournaments()
+                    }*/
                 }
             }
         )
@@ -114,7 +118,7 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
             text = "Nuevo usuario",
             onClick = {
                 coroutineScope.launch {
-                    viewModel.create(User(username="usuario", password = "123456"))
+                    //viewModel.create(User(username="usuario", password = "123456"))
                 }
             },
             enabled = true

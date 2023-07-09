@@ -2,7 +2,9 @@ package com.example.tenisapp.screens
 
 import com.example.tenisapp.TenisViewModelProvider
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -18,16 +20,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.tenisapp.data.model.Tournament
+import com.example.tenisapp.components.FloatingButton
+import com.example.tenisapp.firebase.model.Tournament
 
 import com.example.tenisapp.viewModel.TournamentsViewModel
 import kotlinx.coroutines.launch
@@ -47,7 +60,18 @@ fun TournamentsScreen(
     // tournamentsViewModel.tournamentUiState.tournaments
 
     val tournamentsState = tournamentsViewModel.tournamentUiState
-    // val tournamentsList: List<Tournament> = tournamentsViewModel.tournamentUiState.tournaments
+
+    var tournaments = mutableListOf<Tournament>()
+
+    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
+
+    val nameObserver = Observer<List<Tournament>> { newList ->
+        // Update the UI, in this case, a TextView
+        tournaments = newList.toMutableList()
+    }
+
+    // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+    tournamentsViewModel.tournamentList.observe(lifecycleOwner.value, nameObserver)
 
     Scaffold(
         topBar = {
@@ -82,30 +106,43 @@ fun TournamentsScreen(
                 } */
             )
         },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, modifier = Modifier.padding(vertical = 5.dp)) {
-                items(tournamentsState.tournaments){
-                    TournamentRow(it.nombre)
-                }
-                /*for (aTournament in tournamentsState.tournaments) {
-                    item {
-
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            FloatingButton(icon = Icons.Filled.Add,
+                onClick = {
+                    lifecycleScope.launch {
+                        tournamentsViewModel.create(Tournament(nombre = "Torneo 1", fecha = Date()))
                     }
-                }*/
-
-            }
-            FloatingActionButton(onClick = {
-                lifecycleScope.launch {
-                    tournamentsViewModel.create(Tournament(nombre = "Torneo 1", fecha = Date()))
                 }
-            }) {
-                Icon(Icons.Filled.Add, contentDescription = "Add tournament")
-            }
-
-
+            )
+        },
+        content = { innerPadding ->
+            tournamentsList(innerPadding,tournaments)
         }
     )
 
+}
+
+@Composable
+fun tournamentsList(innerPadding: PaddingValues, tournaments: List<Tournament>) {
+    LazyColumn(contentPadding = innerPadding, modifier = Modifier.padding(vertical = 5.dp)) {
+        items(tournaments) { tournament ->
+            TournamentRow(tournamentName = tournament.nombre)
+        }
+    }
+/*     if (tournaments != null && tournaments.exists()) {
+        LazyColumn(contentPadding = innerPadding, modifier = Modifier.padding(vertical = 5.dp)) {
+            items(tournaments!!.size) { index ->
+                TournamentRow(tournamentName = tournaments!!.get(index).nombre)
+            }
+        }
+    }
+        else {
+            val data = tournaments.getString("tu_campo")
+
+            Text(text = data ?: "No hay datos disponibles")
+        }
+    } */
 }
 
 
