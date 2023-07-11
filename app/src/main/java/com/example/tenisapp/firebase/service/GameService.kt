@@ -9,9 +9,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
-class TournamentService(private val firebaseDatabase: FirebaseFirestore) {
-    var TAG = "FirebaseDatabase --> TournamentService"
-    var COLLECTION_NAME = "tournaments"
+class GameService(private val firebaseDatabase: FirebaseFirestore, private val tournamentService: TournamentService) {
+    var TAG = "FirebaseDatabase --> GameService"
+    var COLLECTION_NAME = "games"
 
     fun create(tournament: Tournament) {
         // Add a new document with a generated ID
@@ -25,8 +25,8 @@ class TournamentService(private val firebaseDatabase: FirebaseFirestore) {
             }
     }
 
-    fun getCollectionReference(): CollectionReference {
-        return firebaseDatabase.collection(COLLECTION_NAME)
+    fun createCollection(){
+        
     }
 
 }

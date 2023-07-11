@@ -83,7 +83,6 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
         PasswordField(password) { viewModel.onLoginChanged(username
             , it)
         }
-        Spacer(modifier = Modifier.padding(8.dp))
         Spacer(modifier = Modifier.padding(16.dp))
         /*LoginButton(loginEnable) {
             coroutineScope.launch {
@@ -98,6 +97,7 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
                 coroutineScope.launch {
                     if(viewModel.findUsername(username,password) != null){
                         Log.d("LoginScreen", "Recibi el usuario")
+                        onNavigateToTournaments()
                     }
                     /*if(viewModel.findUsername(username,password).userId != 0){
                         onNavigateToTournaments()
@@ -114,7 +114,7 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
             enabled = true
         )
 
-        TertiaryButton(
+        /*TertiaryButton(
             text = "Nuevo usuario",
             onClick = {
                 coroutineScope.launch {
@@ -122,7 +122,7 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
                 }
             },
             enabled = true
-        )
+        )*/
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,8 +130,8 @@ fun LoginForm(viewModel: LoginViewModel, onNavigateToTournaments: () -> Unit){
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
         value = password, onValueChange = { onTextFieldChanged(it) },
-        placeholder = { Text("Contraseña") },
-        modifier = Modifier.fillMaxWidth(),
+        label = { Text("Contraseña") },
+        modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = PasswordVisualTransformation(),
         singleLine = true,
@@ -140,6 +140,8 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             textColor = MaterialTheme.colorScheme.onPrimary,
             placeholderColor = MaterialTheme.colorScheme.onPrimary,
+            focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onPrimary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -150,8 +152,8 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
 fun UsernameField(username: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
         value = username, onValueChange = { onTextFieldChanged(it) },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = "Username") },
+        modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
+        label = { Text("Usuario") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         singleLine = true,
         maxLines = 1,
@@ -159,6 +161,8 @@ fun UsernameField(username: String, onTextFieldChanged: (String) -> Unit) {
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             textColor = MaterialTheme.colorScheme.onPrimary,
             placeholderColor = MaterialTheme.colorScheme.onPrimary,
+            focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onPrimary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )

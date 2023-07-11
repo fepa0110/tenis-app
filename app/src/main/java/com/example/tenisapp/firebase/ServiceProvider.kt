@@ -1,5 +1,6 @@
 package com.example.tenisapp.firebase
 
+import com.example.tenisapp.firebase.service.GameService
 import com.example.tenisapp.firebase.service.UserService
 import com.example.tenisapp.firebase.service.TournamentService
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,5 +12,9 @@ class ServiceProvider(private val firebaseDatabase: FirebaseFirestore) {
 
     val tournamentService : TournamentService by lazy {
         TournamentService(firebaseDatabase)
+    }
+
+    val gameService : GameService by lazy {
+        GameService(firebaseDatabase, tournamentService)
     }
 }

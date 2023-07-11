@@ -37,24 +37,18 @@ class TournamentsViewModel(private val tournamentsRepository: TournamentReposito
     init {
         viewModelScope.launch {
             getAll()
-            /*tournamentUiState = tournamentUiState.copy(
-                tournaments = tournamentService.getAll()
-            )*/
-            /*tournamentsRepository.getAllTournamentsStream().collectLatest {
-                tournamentUiState = tournamentUiState.copy(
-                    tournaments = it
-                )
-            }*/
         }
     }
 
     fun getAll(): LiveData<List<Tournament>> {
-        tournamentService.getAllRef()
+        tournamentService.getCollectionReference()
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e("TournamentsViewModel", "Ocurrio un error al obtener la lista de torneos")
                     return@addSnapshotListener
                 }
+
+                //tournamentList.value = emptyList<Tournament>()
 
                 for (doc in snapshot!!) {
                     doc.getString("nombre")?.let {
@@ -66,18 +60,10 @@ class TournamentsViewModel(private val tournamentsRepository: TournamentReposito
                         tournamentList.postValue(newTournamentList)
                     }
                 }
-
-                /*if (snapshot != null) {
-                    tournamentList.value = snapshot.
-                }*/
             }
 
         return tournamentList
     }
-
-    /*fun getAll(): LiveData<List<Tournament>> {
-        return tournamentService.getAll()
-    }*/
 
     fun updateNombre(nombre: String){
         tournamentUiState = tournamentUiState.copy(

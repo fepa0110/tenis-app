@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tenisapp.screens.LoginScreen
 import com.example.tenisapp.screens.TournamentsScreen
+import com.example.tenisapp.screens.GamesScreen
+import com.example.tenisapp.screens.TournamentDetailScreen
 
 /**
  * Provides Navigation graph for the application.
@@ -25,7 +27,14 @@ fun TenisNavHost(
             LoginScreen(onNavigateToTournaments = {navController.navigate("tournamentsList")}, viewModelProvider = viewModelProvider)
         }
         composable("tournamentsList") {
-            TournamentsScreen(modifier, viewModelProvider = viewModelProvider)
+            TournamentsScreen(navController = navController, viewModelProvider = viewModelProvider)
+        }
+        composable("gamesList") {
+            GamesScreen(navController = navController, viewModelProvider = viewModelProvider)
+        }
+        composable("tournamentDetail/{tournamentId}") {backStackEntry ->
+            backStackEntry.arguments?.getString("tournamentId")
+                ?.let { TournamentDetailScreen(it, viewModelProvider = viewModelProvider) }
         }
     }
 }

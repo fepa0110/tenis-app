@@ -28,7 +28,7 @@ fun FloatingButton(
     FloatingActionButton(
         onClick = { onClick() },
         shape = CircleShape,
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) {
         Icon(icon, contentDescription = "")
     }
